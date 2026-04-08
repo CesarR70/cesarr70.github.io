@@ -618,6 +618,13 @@
       }
     }
 
+    /* Typewriter effect for section labels - handled by JavaScript */
+
+    /* Count up animation for stats */
+    .stat-num.counted {
+      display: inline-block;
+    }
+
     /* Screen reader only */
     .sr-only {
       position: absolute;
@@ -675,19 +682,19 @@
 
     <section class="stats">
       <div class="stat">
-        <div class="stat-num">10+</div>
+        <div class="stat-num" data-target="10" data-suffix="+">0+</div>
         <div class="stat-label">Years Experience</div>
       </div>
       <div class="stat">
-        <div class="stat-num">2.6M</div>
+        <div class="stat-num" data-target="2600000" data-suffix="M" data-prefix="" data-decimals="1">0M</div>
         <div class="stat-label">Units/Month</div>
       </div>
       <div class="stat">
-        <div class="stat-num">500+</div>
+        <div class="stat-num" data-target="500" data-suffix="+">0+</div>
         <div class="stat-label">Clients Supported</div>
       </div>
       <div class="stat">
-        <div class="stat-num">5</div>
+        <div class="stat-num" data-target="5" data-suffix="">0</div>
         <div class="stat-label">Certifications</div>
       </div>
     </section>
@@ -930,5 +937,107 @@
       <a href="https://github.com/CesarR70" target="_blank" rel="noopener">github.com/CesarR70 →</a>
     </footer>
   </div>
+
+  <script>
+    // Check if animations have already played this session
+    const animationsPlayed = sessionStorage.getItem('portfolioAnimationsPlayed');
+    
+    if (!animationsPlayed) {
+      // Mark animations as played
+      sessionStorage.setItem('portfolioAnimationsPlayed', 'true');
+
+      // Typewriter effect for section labels - character by character
+      const secLabels = document.querySelectorAll('.sec-label');
+      secLabels.forEach((label, index) => {
+        setTimeout(() => {
+          const originalText = label.textContent;
+          label.textContent = '';
+          let charIndex = 0;
+          
+          function typeChar() {
+            if (charIndex < originalText.length) {
+              label.textContent += originalText.charAt(charIndex);
+              charIndex++;
+              setTimeout(typeChar, 50); // 50ms per character
+            }
+          }
+          
+          typeChar();
+        }, index * 200);
+      });
+
+      // Count up animation for stats
+      const statNums = document.querySelectorAll('.stat-num[data-target]');
+      
+      statNums.forEach((stat, index) => {
+        const target = parseInt(stat.dataset.target);
+        const suffix = stat.dataset.suffix || '';
+        const prefix = stat.dataset.prefix || '';
+        const decimals = parseInt(stat.dataset.decimals) || 0;
+        
+        // Calculate display value based on target
+        let displayTarget = target;
+        let displayPrefix = prefix;
+        
+        // Handle the 2.6M case - display as "2.6M" but count to 2600000
+        if (target === 2600000) {
+          displayTarget = 2.6;
+          displayPrefix = '';
+        }
+        
+        // Stagger each stat
+        setTimeout(() => {
+          let current = 0;
+          const duration = 1500; // 1.5 seconds
+          const startTime = performance.now();
+          
+          function updateCount(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            // Easing function for smooth animation (ease-out)
+            const easeOut = 1 - Math.pow(1 - progress, 3);
+            
+            current = displayTarget * easeOut;
+            
+            if (target === 2600000) {
+              stat.textContent = current.toFixed(1) + 'M';
+            } else if (target >= 100) {
+              stat.textContent = Math.floor(current) + suffix;
+            } else {
+              stat.textContent = Math.floor(current) + suffix;
+            }
+            
+            if (progress < 1) {
+              requestAnimationFrame(updateCount);
+            } else {
+              // Final value
+              if (target === 2600000) {
+                stat.textContent = '2.6M';
+              } else {
+                stat.textContent = target + suffix;
+              }
+              stat.classList.add('counted');
+            }
+          }
+          
+          requestAnimationFrame(updateCount);
+        }, index * 150 + 500); // Start after typewriter begins
+      });
+    } else {
+      // Animations already played this session - show final values immediately
+      const statNums = document.querySelectorAll('.stat-num[data-target]');
+      statNums.forEach(stat => {
+        const target = parseInt(stat.dataset.target);
+        const suffix = stat.dataset.suffix || '';
+        if (target === 2600000) {
+          stat.textContent = '2.6M';
+        } else {
+          stat.textContent = target + suffix;
+        }
+        stat.classList.add('counted');
+      });
+    }
+  </script>
 </body>
 </html>
