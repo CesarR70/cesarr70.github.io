@@ -708,7 +708,7 @@
         <div class="stat-label">Clients Supported</div>
       </div>
       <div class="stat">
-        <div class="stat-num" data-target="5" data-suffix="">0</div>
+        <div class="stat-num" data-target="7" data-suffix="">0</div>
         <div class="stat-label">Certifications</div>
       </div>
     </section>
@@ -796,7 +796,17 @@
     <section id="certifications" class="section">
       <div class="container">
         <h3 class="sec-label">// CERTIFICATIONS</h3>
-        <div class="certs-grid">
+        <div class="certs-grid" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="cert-card">
+            <p class="cert-name">AI Fluency</p>
+            <p class="cert-issuer">Anthropic · Aug 2026 – Present</p>
+            <p class="cert-desc">Collaborate with AI systems effectively, efficiently, ethically, and safely</p>
+          </div>
+          <div class="cert-card">
+            <p class="cert-name">C Fundamentals</p>
+            <p class="cert-issuer">Coddy · Jul 2026 – Present</p>
+            <p class="cert-desc">C Fundamentals, Logic & Flow, OOP</p>
+          </div>
           <div class="cert-card">
             <p class="cert-name">Cisco CCNA</p>
             <p class="cert-issuer">Cisco · June 2015</p>
@@ -823,8 +833,9 @@
             <p class="cert-desc">Core hardware and IT support fundamentals — the foundation of the CompTIA certification path</p>
           </div>
         </div>
-      </div>
-    </section>
+
+        </div>
+      </section>
 
     <section class="section">
       <div class="container">
@@ -851,6 +862,18 @@
       <div class="container">
         <h3 class="sec-label">// PERSONAL PROJECTS</h3>
         <div class="proj-grid">
+          <article class="proj-card">
+            <div class="proj-header">
+              <p class="proj-name">simpleRDP</p>
+              <span class="badge badge-c">Swift</span>
+            </div>
+            <p class="proj-desc">simple native macOS RDP client written in Swift</p>
+            <div class="proj-foot">
+              <span class="badge badge-game">macOS util</span>
+              <a href="https://github.com/CesarR70/simpleRDP" target="_blank" rel="noopener" class="gh-link">github →</a>
+            </div>
+          </article>
+
           <article class="proj-card">
             <div class="proj-header">
               <p class="proj-name">FNaF-1-PSP-Optimized</p>
@@ -933,6 +956,7 @@
           <div class="skill-pill"><div class="dot dot-sql"></div>Microsoft T-SQL</div>
           <div class="skill-pill"><div class="dot dot-sql"></div>Microsoft Excel</div>
           <div class="skill-pill"><div class="dot dot-py"></div>Python</div>
+          <div class="skill-pill"><div class="dot dot-c"></div>Swift</div>
           <div class="skill-pill"><div class="dot dot-sh"></div>Shell / Bash</div>
           <div class="skill-pill"><div class="dot dot-c"></div>C / Lua</div>
           <div class="skill-pill"><div class="dot dot-vm"></div>VMware vCenter</div>
